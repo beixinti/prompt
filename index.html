@@ -195,14 +195,32 @@
     let currentSearch = "";
 
     // Initialize application
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
       initTheme();
       
-      // Load initial content
-      if (DEFAULT_MARKDOWN_BASE64 && DEFAULT_MARKDOWN_BASE64 !== "__" + "MARKDOWN_BASE64__") {
-        rawMarkdown = b64_to_utf8(DEFAULT_MARKDOWN_BASE64);
-      } else {
-        rawMarkdown = `# 演示 Prompt 分类
+      // Print the absolute URL of the request as requested
+      console.log("当前尝试请求的完整路径是:", new URL('./README.md', window.location.href).href);
+      
+      let loadedSuccessfully = false;
+      try {
+        const timestamp = new Date().getTime();
+        const response = await fetch(`./README.md?t=${timestamp}`);
+        if (response.ok) {
+          rawMarkdown = await response.text();
+          loadedSuccessfully = true;
+        } else {
+          console.warn("获取 README.md 失败，HTTP 状态码:", response.status);
+        }
+      } catch (err) {
+        console.error("获取 README.md 发生错误，将使用备用内容:", err);
+      }
+      
+      // Fallback to embedded Base64 or local static template if fetch failed
+      if (!loadedSuccessfully) {
+        if (DEFAULT_MARKDOWN_BASE64 && DEFAULT_MARKDOWN_BASE64 !== "__" + "MARKDOWN_BASE64__") {
+          rawMarkdown = b64_to_utf8(DEFAULT_MARKDOWN_BASE64);
+        } else {
+          rawMarkdown = `# 演示 Prompt 分类
 
 ## ✨ 写作大师
 \`\`\`
@@ -214,6 +232,7 @@
 你是一位精通多语言的编程专家。请分析以下代码的性能瓶颈并给出优化方案。
 \`\`\`
 `;
+        }
       }
       
       // Initial render
