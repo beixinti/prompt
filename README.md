@@ -127,7 +127,7 @@
 
 ---
 
-## Legacy：以下 Prompt 生成图片效果有限，不再推荐使用。
+## 🚫Legacy：以下 Prompt 生成图片效果有限，不再推荐使用。
 
 ### 自然语言优化为Inpaint Prompt（输出英文）
 
