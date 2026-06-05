@@ -506,10 +506,7 @@
 
       while (i < lines.length) {
         const line = lines[i];
-        let cleanLine = line.trim();
-        if (cleanLine.startsWith('>')) {
-          cleanLine = cleanLine.substring(1).trim();
-        }
+        const cleanLine = line.trim();
 
         // Match Level 1 heading (H1)
         if (cleanLine.startsWith('# ')) {
@@ -532,10 +529,7 @@
             let skipInsideCode = false;
 
             for (let j = i + 1; j < lines.length; j++) {
-              let nextLine = lines[j].trim();
-              if (nextLine.startsWith('>')) {
-                nextLine = nextLine.substring(1).trim();
-              }
+              const nextLine = lines[j].trim();
 
               // Track and skip inner code blocks during header search
               if (/^`{3}(?!`)/.test(nextLine)) {
@@ -568,10 +562,7 @@
             let skipInsideCode = false;
 
             for (let j = i + 1; j < lines.length; j++) {
-              let nextLine = lines[j].trim();
-              if (nextLine.startsWith('>')) {
-                nextLine = nextLine.substring(1).trim();
-              }
+              const nextLine = lines[j].trim();
 
               if (/^`{3}(?!`)/.test(nextLine)) {
                 skipInsideCode = !skipInsideCode;
@@ -593,11 +584,8 @@
           let endIdx = -1;
 
           for (let j = i + 1; j < lines.length; j++) {
-            let nextLine = lines[j];
-            let cleanNextLine = nextLine.trim();
-            if (cleanNextLine.startsWith('>')) {
-              cleanNextLine = cleanNextLine.substring(1).trim();
-            }
+            const nextLine = lines[j];
+            const cleanNextLine = nextLine.trim();
 
             // Stop if we hit any other heading outside code block
             if ((cleanNextLine.startsWith('# ') || cleanNextLine.startsWith('## ') || cleanNextLine.startsWith('### ')) && !insideCode) {
